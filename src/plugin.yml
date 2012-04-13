@@ -1,0 +1,14 @@
+name: BottledExp
+version: 1.0
+description: Fills the player's XP into a bottle
+author: sacnoth
+website: http://www.bukkit.org
+
+main: me.sacnoth.bottledexp.BottledExp
+database: false
+
+commands:
+   bottle:
+      description: Fills XP into a bottle.
+      usage: /<command> [amount]
+      permission-message: You don't have permission to do this

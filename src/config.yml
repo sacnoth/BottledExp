@@ -1,0 +1,9 @@
+bottle:
+  xpCost: 10
+  xpEarn: 10
+language:
+  errAmount: The amount has to be a number!
+  errXP: You don't have enough XP!
+  currentXP: You currently have
+  order1: You have ordered
+  order2: bottles
