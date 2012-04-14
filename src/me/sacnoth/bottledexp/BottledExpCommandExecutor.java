@@ -17,8 +17,8 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 		if ((sender instanceof Player)) {
-			if (cmd.getName().equalsIgnoreCase("bottle")) {
-				Player player = (Player) sender;
+			Player player = (Player) sender;
+			if (cmd.getName().equalsIgnoreCase("bottle") && BottledExp.checkPermission("bottle.use", player)) {
 				int currentxp = player.getTotalExperience();
 
 				if (args.length == 0) {
@@ -27,7 +27,13 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 				} else if (args.length == 1) {
 					int amount;
 					if (args[0].equals("max")) {
-						amount = (int) Math.floor(currentxp / 10);
+						if (BottledExp.checkPermission("bottle.max", player)) {
+							amount = (int) Math.floor(currentxp / 10);
+						}
+						else
+						{
+							return false;
+						}
 					} else {
 						try {
 							amount = Integer.valueOf(args[0]).intValue();
