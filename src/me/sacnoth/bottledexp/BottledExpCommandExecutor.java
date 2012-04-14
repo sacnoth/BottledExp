@@ -46,7 +46,8 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 					if (currentxp < amount * BottledExp.xpCost) {
 						sender.sendMessage(ChatColor.RED + BottledExp.errXP);
 					}
-					else if (amount == 0) {
+					else if (amount <= 0) {
+						amount = 0;
 						sender.sendMessage(BottledExp.langOrder1 + " " + amount
 								+ " " + BottledExp.langOrder2);
 					}
