@@ -1,0 +1,24 @@
+Feautures:
+
+This Plugin allows your players to fill their XP into XP-Bottles, so they can store or sell them freely.
+Installation:
+
+    Place BottledExp.jar in the /plugins folder of your server.
+    Enjoy! 
+
+Configuration:
+
+    The plugin will create a config.yml in which you can customise the 'price' of an bottle.
+    You are also able to change several language options. 
+
+Permissions:
+
+TODO - Currently everyone will be able to use the commands.
+Commands:
+
+    /bottle
+        Shows the player's current XP 
+    /bottle [amount]
+        Exchanges XP into [amount] bottles 
+    /bottle max
+        Exchanges all XP into bottles. 

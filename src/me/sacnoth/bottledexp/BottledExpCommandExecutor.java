@@ -39,7 +39,12 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 					}
 					if (currentxp < amount * BottledExp.xpCost) {
 						sender.sendMessage(ChatColor.RED + BottledExp.errXP);
-					} else {
+					}
+					else if (amount == 0) {
+						sender.sendMessage(BottledExp.langOrder1 + " " + amount
+								+ " " + BottledExp.langOrder2);
+					}
+					else {
 						PlayerInventory inventory = player.getInventory();
 						ItemStack items = new ItemStack(384, amount);
 						inventory.addItem(items);
