@@ -18,20 +18,29 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 			String commandLabel, String[] args) {
 		if ((sender instanceof Player)) {
 			Player player = (Player) sender;
-			if (cmd.getName().equalsIgnoreCase("bottle") && BottledExp.checkPermission("bottle.use", player)) {
+			if (cmd.getName().equalsIgnoreCase("bottle")
+					&& BottledExp.checkPermission("bottle.use", player)) {
 				int currentxp = player.getTotalExperience();
 
 				if (args.length == 0) {
 					sender.sendMessage(BottledExp.langCurrentXP + ": "
 							+ currentxp + " XP!");
 				} else if (args.length == 1) {
-					int amount;
+					int amount = 0;
 					if (args[0].equals("max")) {
 						if (BottledExp.checkPermission("bottle.max", player)) {
-							amount = (int) Math.floor(currentxp / 10);
+							amount = (int) Math.floor(currentxp
+									/ BottledExp.xpCost);
+						} else {
+							return false;
 						}
-						else
-						{
+					} else if (args[0].equals("reload")) {
+						if (BottledExp.checkPermission("bottle.reload", player)) {
+							BottledExp.config.reload(sender);
+							sender.sendMessage(ChatColor.GREEN
+									+ "Config reloaded!");
+							return true;
+						} else {
 							return false;
 						}
 					} else {
@@ -45,13 +54,11 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 					}
 					if (currentxp < amount * BottledExp.xpCost) {
 						sender.sendMessage(ChatColor.RED + BottledExp.errXP);
-					}
-					else if (amount <= 0) {
+					} else if (amount <= 0) {
 						amount = 0;
 						sender.sendMessage(BottledExp.langOrder1 + " " + amount
 								+ " " + BottledExp.langOrder2);
-					}
-					else {
+					} else {
 						PlayerInventory inventory = player.getInventory();
 						ItemStack items = new ItemStack(384, amount);
 						inventory.addItem(items);

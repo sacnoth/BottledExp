@@ -22,6 +22,7 @@ public class BottledExp extends JavaPlugin {
 	static String langCurrentXP;
 	static String langOrder1;
 	static String langOrder2;
+	static Config config;
 
 	public void onEnable() {
 		log = this.getLogger();
@@ -32,12 +33,13 @@ public class BottledExp extends JavaPlugin {
 		getServer().getPluginManager()
 				.registerEvents(new EventListener(), this);
 
-		Config config = new Config(this);
+		config = new Config(this);
 		config.load();
 
 		log.info("You are now able to fill XP into Bottles");
-		
-		if (Bukkit.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
+
+		if (Bukkit.getServer().getPluginManager()
+				.isPluginEnabled("PermissionsEx")) {
 			usePermissions = true;
 			permissions = PermissionsEx.getPermissionManager();
 			log.info("Using Permissions!");
@@ -47,15 +49,24 @@ public class BottledExp extends JavaPlugin {
 	public void onDisable() {
 		log.info("You are no longer able to fill XP into Bottles");
 	}
-	
+
 	public static boolean checkPermission(String node, Player player) {
 		if (usePermissions) {
 			if (permissions.has(player, node)) {
 				return true;
 			}
-			player.sendMessage(ChatColor.RED + "You don't have permission to do this!");
+			player.sendMessage(ChatColor.RED
+					+ "You don't have permission to do this!");
 			return false;
 		}
 		return true;
+	}
+
+	public static int levelToExp(int level) {
+		return (int) Math.round(1.75 * Math.pow(level, 2) + 5 * level);
+	}
+
+	public static int deltaLevelToExp(int level) {
+		return (int) Math.round(3.5 * level + 3.25);
 	}
 }

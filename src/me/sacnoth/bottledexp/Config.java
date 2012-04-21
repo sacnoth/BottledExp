@@ -1,5 +1,7 @@
 package me.sacnoth.bottledexp;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
@@ -47,5 +49,26 @@ public class Config {
 		}
 
 		plugin.saveConfig();
+	}
+
+	public void reload(CommandSender sender) {
+		plugin.reloadConfig();
+		final FileConfiguration config = plugin.getConfig();
+
+		BottledExp.xpCost = config.getInt("bottle.xpCost");
+		BottledExp.xpEarn = config.getInt("bottle.xpEarn");
+		BottledExp.errAmount = config.getString("language.errAmount");
+		BottledExp.errXP = config.getString("language.errXP");
+		BottledExp.langCurrentXP = config.getString("language.currentXP");
+		BottledExp.langOrder1 = config.getString("language.order1");
+		BottledExp.langOrder2 = config.getString("language.order2");
+
+		if (BottledExp.xpEarn > BottledExp.xpCost) {
+			sender.sendMessage(ChatColor.RED
+					+ "Players earn more XP through XP bottles than they cost!");
+		}
+
+		sender.sendMessage(ChatColor.YELLOW + "Cost: " + BottledExp.xpCost);
+		sender.sendMessage(ChatColor.YELLOW + "Earn: " + BottledExp.xpEarn);
 	}
 }
