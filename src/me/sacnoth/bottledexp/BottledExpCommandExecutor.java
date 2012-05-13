@@ -1,5 +1,7 @@
 package me.sacnoth.bottledexp;
 
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -61,11 +63,19 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 					} else {
 						PlayerInventory inventory = player.getInventory();
 						ItemStack items = new ItemStack(384, amount);
-						inventory.addItem(items);
+						HashMap<Integer, ItemStack> leftoverItems = inventory
+								.addItem(items);
 						player.setTotalExperience(0);
 						player.setLevel(0);
 						player.setExp(0);
 						player.giveExp(currentxp - (amount * BottledExp.xpCost));
+						if (leftoverItems.containsKey(0)) {
+							int refundAmount = leftoverItems.get(0).getAmount();
+							player.giveExp(refundAmount * BottledExp.xpCost);
+							player.sendMessage(BottledExp.langRefund + ": "
+									+ refundAmount);
+							amount -= refundAmount;
+						}
 						sender.sendMessage(BottledExp.langOrder1 + " " + amount
 								+ " " + BottledExp.langOrder2);
 					}

@@ -22,6 +22,7 @@ public class BottledExp extends JavaPlugin {
 	static String langCurrentXP;
 	static String langOrder1;
 	static String langOrder2;
+	static String langRefund;
 	static Config config;
 
 	public void onEnable() {

@@ -7,3 +7,4 @@ language:
   currentXP: You currently have
   order1: You have ordered
   order2: bottles
+  refund: Refund issued! Amount

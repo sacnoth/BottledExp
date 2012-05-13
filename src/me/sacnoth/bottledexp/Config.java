@@ -43,6 +43,10 @@ public class Config {
 		BottledExp.langOrder2 = config.getString("language.order2");
 		config.set("language.order2", BottledExp.langOrder2);
 
+		config.addDefault("language.refund", "Refund issued! Amount");
+		BottledExp.langRefund = config.getString("language.refund");
+		config.set("language.refund", BottledExp.langRefund);
+
 		if (BottledExp.xpEarn > BottledExp.xpCost) {
 			BottledExp.log
 					.warning("Players earn more XP through XP bottles than they cost!");
