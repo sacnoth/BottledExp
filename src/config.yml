@@ -1,6 +1,8 @@
 bottle:
   xpCost: 10
   xpEarn: 10
+  useItems: true
+  consumedItem: 374
 language:
   errAmount: The amount has to be a number!
   errXP: You don't have enough XP!
@@ -8,3 +10,4 @@ language:
   order1: You have ordered
   order2: bottles
   refund: Refund issued! Amount
+  itemConsume: You don't have enough items!

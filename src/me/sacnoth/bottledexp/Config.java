@@ -22,6 +22,14 @@ public class Config {
 		BottledExp.xpEarn = config.getInt("bottle.xpEarn");
 		config.set("bottle.xpEarn", BottledExp.xpEarn);
 
+		config.addDefault("bottle.useItems", true);
+		BottledExp.settingUseItems = config.getBoolean("bottle.useItems");
+		config.set("bottle.useItems", BottledExp.settingUseItems);
+
+		config.addDefault("bottle.consumedItem", 374);
+		BottledExp.settingConsumedItem = config.getInt("bottle.consumedItem");
+		config.set("bottle.consumedItem", BottledExp.settingConsumedItem);
+
 		config.addDefault("language.errAmount",
 				"The amount has to be a number!");
 		BottledExp.errAmount = config.getString("language.errAmount");
@@ -46,6 +54,11 @@ public class Config {
 		config.addDefault("language.refund", "Refund issued! Amount");
 		BottledExp.langRefund = config.getString("language.refund");
 		config.set("language.refund", BottledExp.langRefund);
+
+		config.addDefault("language.itemConsume",
+				"You don't have enough items!");
+		BottledExp.langItemConsumer = config.getString("language.itemConsume");
+		config.set("language.itemConsume", BottledExp.langItemConsumer);
 
 		if (BottledExp.xpEarn > BottledExp.xpCost) {
 			BottledExp.log

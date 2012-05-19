@@ -35,5 +35,4 @@ public class EventListener implements Listener {
 		player.giveExp(newXP);
 		event.setExpLevelCost(0);
 	}
-
 }
