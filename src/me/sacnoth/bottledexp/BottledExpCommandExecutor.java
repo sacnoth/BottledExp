@@ -34,10 +34,11 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 							amount = (int) Math.floor(currentxp
 									/ BottledExp.xpCost);
 							if (BottledExp.settingUseItems) {
-								amount = Math
-										.min(BottledExp.countItems(player,
-												BottledExp.settingConsumedItem),
-												amount);
+								amount = Math.min(BottledExp.countItems(player, BottledExp.settingConsumedItem)/BottledExp.amountConsumed, amount);
+							}
+							if (BottledExp.useVault)
+							{
+								amount = Math.min((int) Math.floor(BottledExp.getBalance(player)/BottledExp.moneyCost), amount);
 							}
 						} else {
 							return false;
@@ -69,14 +70,21 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 								+ " " + BottledExp.langOrder2);
 						return true;
 					}
-					if (BottledExp.settingUseItems) {
-						if (!BottledExp.consumeItem(player,
-								BottledExp.settingConsumedItem, amount)) {
-							sender.sendMessage(ChatColor.RED
-									+ BottledExp.langItemConsumer);
+
+					boolean money = false;
+					if (BottledExp.useVault)
+					{
+						if (BottledExp.getBalance(player) > BottledExp.moneyCost * amount)
+						{
+							money = true;
+						}
+						else
+						{
+							player.sendMessage(BottledExp.errMoney);
 							return true;
 						}
 					}
+
 					PlayerInventory inventory = player.getInventory();
 					ItemStack items = new ItemStack(384, amount);
 					HashMap<Integer, ItemStack> leftoverItems = inventory
@@ -92,6 +100,22 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 								+ refundAmount);
 						amount -= refundAmount;
 					}
+					
+					if (money)
+					{
+						BottledExp.withdrawMoney(player, BottledExp.moneyCost * amount);
+						player.sendMessage(BottledExp.langMoney + ": " + BottledExp.moneyCost * amount + " " + BottledExp.economy.currencyNamePlural());
+					}
+					
+					if (BottledExp.settingUseItems) {
+						if (!BottledExp.consumeItem(player,
+								BottledExp.settingConsumedItem, amount * BottledExp.amountConsumed)) {
+							sender.sendMessage(ChatColor.RED
+									+ BottledExp.langItemConsumer);
+							return true;
+						}
+					}
+					
 					sender.sendMessage(BottledExp.langOrder1 + " " + amount
 							+ " " + BottledExp.langOrder2);
 				}

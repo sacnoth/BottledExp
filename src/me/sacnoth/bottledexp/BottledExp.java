@@ -2,11 +2,14 @@ package me.sacnoth.bottledexp;
 
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.PermissionManager;
@@ -18,17 +21,23 @@ public class BottledExp extends JavaPlugin {
 	static int xpCost;
 	static int xpEarn;
 	static boolean usePermissions = false;
+	static boolean useVault = true;
 	static PermissionManager permissions;
 	static String errAmount;
 	static String errXP;
+	static String errMoney;
 	static String langCurrentXP;
 	static String langOrder1;
 	static String langOrder2;
 	static String langRefund;
 	static String langItemConsumer;
+	static String langMoney;
 	static boolean settingUseItems;
 	static int settingConsumedItem;
+	static int amountConsumed;
+	static double moneyCost;
 	static Config config;
+	public static Economy economy = null;
 
 	public void onEnable() {
 		log = this.getLogger();
@@ -41,6 +50,11 @@ public class BottledExp extends JavaPlugin {
 
 		config = new Config(this);
 		config.load();
+		
+        if (!setupEconomy() ) {
+            log.info("Vault not found - Disabeling economy capabilities.");
+            useVault = false;
+        }
 
 		log.info("You are now able to fill XP into Bottles");
 
@@ -116,4 +130,26 @@ public class BottledExp extends JavaPlugin {
 		}
 		return amount;
 	}
+	
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
+    }
+    
+    public static double getBalance(Player player)
+    {
+    	return BottledExp.economy.getBalance(player.getName());
+    }
+    
+    public static void withdrawMoney(Player player, double price)
+    {
+    	BottledExp.economy.withdrawPlayer(player.getName(), price);
+    }
 }

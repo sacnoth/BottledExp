@@ -29,7 +29,19 @@ public class Config {
 		config.addDefault("bottle.consumedItem", 374);
 		BottledExp.settingConsumedItem = config.getInt("bottle.consumedItem");
 		config.set("bottle.consumedItem", BottledExp.settingConsumedItem);
-
+		
+		config.addDefault("bottle.amountConsumed", 1);
+		BottledExp.amountConsumed = config.getInt("bottle.amountConsumed");
+		config.set("bottle.amountConsumed", BottledExp.amountConsumed);
+		
+		config.addDefault("bottle.useMoney", false);
+		BottledExp.useVault = config.getBoolean("bottle.useMoney");
+		config.set("bottle.useMoney", BottledExp.useVault);
+		
+		config.addDefault("bottle.moneyCost", 100);
+		BottledExp.moneyCost = config.getDouble("bottle.moneyCost");
+		config.set("bottle.moneyCost", BottledExp.moneyCost);
+		
 		config.addDefault("language.errAmount",
 				"The amount has to be a number!");
 		BottledExp.errAmount = config.getString("language.errAmount");
@@ -38,6 +50,10 @@ public class Config {
 		config.addDefault("language.errXP", "You don't have enough XP!");
 		BottledExp.errXP = config.getString("language.errXP");
 		config.set("language.errXP", BottledExp.errXP);
+		
+		config.addDefault("language.errMoney", "You don't have enough money!");
+		BottledExp.errMoney = config.getString("language.errMoney");
+		config.set("language.errMoney", BottledExp.errMoney);
 
 		config.addDefault("language.currentXP", "You currently have");
 		BottledExp.langCurrentXP = config.getString("language.currentXP");
@@ -59,6 +75,10 @@ public class Config {
 				"You don't have enough items!");
 		BottledExp.langItemConsumer = config.getString("language.itemConsume");
 		config.set("language.itemConsume", BottledExp.langItemConsumer);
+		
+		config.addDefault("language.money", "Transactioncost");
+		BottledExp.langMoney = config.getString("language.money");
+		config.set("language.money", BottledExp.langMoney);
 
 		if (BottledExp.xpEarn > BottledExp.xpCost) {
 			BottledExp.log
@@ -74,18 +94,32 @@ public class Config {
 
 		BottledExp.xpCost = config.getInt("bottle.xpCost");
 		BottledExp.xpEarn = config.getInt("bottle.xpEarn");
+		BottledExp.settingUseItems = config.getBoolean("bottle.useItems");
+		BottledExp.settingConsumedItem = config.getInt("bottle.consumedItem");
+		BottledExp.amountConsumed = config.getInt("bottle.amountConsumed");
+		BottledExp.useVault = config.getBoolean("bottle.useMoney");
+		BottledExp.moneyCost = config.getDouble("bottle.moneyCost");
 		BottledExp.errAmount = config.getString("language.errAmount");
 		BottledExp.errXP = config.getString("language.errXP");
+		BottledExp.errMoney = config.getString("language.errMoney");
 		BottledExp.langCurrentXP = config.getString("language.currentXP");
 		BottledExp.langOrder1 = config.getString("language.order1");
 		BottledExp.langOrder2 = config.getString("language.order2");
+		BottledExp.langRefund = config.getString("language.refund");
+		BottledExp.langItemConsumer = config.getString("language.itemConsume");
+		BottledExp.langMoney = config.getString("language.money");
 
 		if (BottledExp.xpEarn > BottledExp.xpCost) {
 			sender.sendMessage(ChatColor.RED
 					+ "Players earn more XP through XP bottles than they cost!");
 		}
 
-		sender.sendMessage(ChatColor.YELLOW + "Cost: " + BottledExp.xpCost);
-		sender.sendMessage(ChatColor.YELLOW + "Earn: " + BottledExp.xpEarn);
+		sender.sendMessage(ChatColor.YELLOW + "XP-Cost: " + BottledExp.xpCost);
+		sender.sendMessage(ChatColor.YELLOW + "XP-Earn: " + BottledExp.xpEarn);
+		sender.sendMessage(ChatColor.YELLOW + "Use items: " + BottledExp.settingUseItems);
+		sender.sendMessage(ChatColor.YELLOW + "Item used: " + BottledExp.settingConsumedItem);
+		sender.sendMessage(ChatColor.YELLOW + "Amount used: " + BottledExp.amountConsumed);
+		sender.sendMessage(ChatColor.YELLOW + "Use money: " + BottledExp.useVault);
+		sender.sendMessage(ChatColor.YELLOW + BottledExp.langMoney + ": " + BottledExp.moneyCost);
 	}
 }
