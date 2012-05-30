@@ -50,11 +50,11 @@ public class BottledExp extends JavaPlugin {
 
 		config = new Config(this);
 		config.load();
-		
-        if (!setupEconomy() ) {
-            log.info("Vault not found - Disabeling economy capabilities.");
-            useVault = false;
-        }
+
+		if (!setupEconomy()) {
+			log.info("Vault not found - Disabeling economy capabilities.");
+			useVault = false;
+		}
 
 		log.info("You are now able to fill XP into Bottles");
 
@@ -106,6 +106,16 @@ public class BottledExp extends JavaPlugin {
 		return bukkitExp;
 	}
 
+	public static boolean checkInventory(Player player, int itemID, int amount) {
+		PlayerInventory inventory = player.getInventory();
+
+		if (inventory.contains(itemID, amount)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static boolean consumeItem(Player player, int itemID, int amount) {
 		PlayerInventory inventory = player.getInventory();
 
@@ -130,26 +140,25 @@ public class BottledExp extends JavaPlugin {
 		}
 		return amount;
 	}
-	
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        economy = rsp.getProvider();
-        return economy != null;
-    }
-    
-    public static double getBalance(Player player)
-    {
-    	return BottledExp.economy.getBalance(player.getName());
-    }
-    
-    public static void withdrawMoney(Player player, double price)
-    {
-    	BottledExp.economy.withdrawPlayer(player.getName(), price);
-    }
+
+	private boolean setupEconomy() {
+		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			return false;
+		}
+		RegisteredServiceProvider<Economy> rsp = getServer()
+				.getServicesManager().getRegistration(Economy.class);
+		if (rsp == null) {
+			return false;
+		}
+		economy = rsp.getProvider();
+		return economy != null;
+	}
+
+	public static double getBalance(Player player) {
+		return BottledExp.economy.getBalance(player.getName());
+	}
+
+	public static void withdrawMoney(Player player, double price) {
+		BottledExp.economy.withdrawPlayer(player.getName(), price);
+	}
 }

@@ -1,4 +1,5 @@
-Feautures:
+Version: 1.5.1
+Features:
 
 This Plugin allows your players to fill their XP into XP-Bottles, so they can store or sell them freely.
 Installation:
@@ -8,12 +9,23 @@ Installation:
 
 Configuration:
 
-    The plugin will create a config.yml in which you can customise the 'price' of an bottle.
+    The plugin will create a config.yml in which you can customize the 'price' of an bottle.
+    It it possible to change which item is consumed when filling XP into bottles, or whether it should be completely disabled. (on by default).
+    One is also able to choose how much money is needed to fill XP into bottles.
+        This feature requires Vault and an installed economy-plugin. 
     You are also able to change several language options. 
 
 Permissions:
 
-TODO - Currently everyone will be able to use the commands.
+    bottle.use
+        Grants access to /bottle and /bottle [amount] 
+    bottle.max
+        Grants access to /bottle max
+        bottle.use has to be given 
+    bottle.reload
+        Grants access to /bottle reload
+        bottle.use has to be given 
+
 Commands:
 
     /bottle
@@ -22,3 +34,37 @@ Commands:
         Exchanges XP into [amount] bottles 
     /bottle max
         Exchanges all XP into bottles. 
+    /bottle reload
+        Reloads the config 
+
+Downloads:
+
+    Download
+    German Localization
+    Source 
+
+Changelog:
+
+    Version 1.5.1:
+        Fixed a bug where the consuming of glass bottles (items) didn't work correctly 
+    Version 1.5:
+        Added an option to consume money when filling XP into bottles. (Requires Vault) 
+    Version 1.4:
+        Added an option to consume a specified item when filling XP into bottles
+        Added an alternate way of getting the players XP 
+    Version 1.3.1:
+        Now checks whether enough space is left in the players inventory 
+    Version 1.3:
+        Added /bottle reload
+        Fixed problems when enchanting items 
+    Version 1.2:
+        Now supports permissions (PEX) 
+    Version 1.1:
+        Fixed a bug where you could create an infinite stack of XP-bottles 
+    Version 1.0:
+        Initial Release 
+
+Donate:
+
+    PayPal (EUR)
+    PayPal (USD)

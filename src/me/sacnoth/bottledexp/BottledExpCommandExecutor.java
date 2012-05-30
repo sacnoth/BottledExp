@@ -34,11 +34,16 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 							amount = (int) Math.floor(currentxp
 									/ BottledExp.xpCost);
 							if (BottledExp.settingUseItems) {
-								amount = Math.min(BottledExp.countItems(player, BottledExp.settingConsumedItem)/BottledExp.amountConsumed, amount);
+								amount = Math.min(
+										BottledExp.countItems(player,
+												BottledExp.settingConsumedItem)
+												/ BottledExp.amountConsumed,
+										amount);
 							}
-							if (BottledExp.useVault)
-							{
-								amount = Math.min((int) Math.floor(BottledExp.getBalance(player)/BottledExp.moneyCost), amount);
+							if (BottledExp.useVault) {
+								amount = Math.min((int) Math.floor(BottledExp
+										.getBalance(player)
+										/ BottledExp.moneyCost), amount);
 							}
 						} else {
 							return false;
@@ -72,15 +77,28 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 					}
 
 					boolean money = false;
-					if (BottledExp.useVault)
+					if (BottledExp.useVault) // Check if the player has enough
+												// money
 					{
-						if (BottledExp.getBalance(player) > BottledExp.moneyCost * amount)
-						{
+						if (BottledExp.getBalance(player) > BottledExp.moneyCost
+								* amount) {
 							money = true;
-						}
-						else
-						{
+						} else {
 							player.sendMessage(BottledExp.errMoney);
+							return true;
+						}
+					}
+
+					boolean consumeItems = false;
+					if (BottledExp.settingUseItems) // Check if the player has
+													// enough items
+					{
+						consumeItems = BottledExp.checkInventory(player,
+								BottledExp.settingConsumedItem, amount
+										* BottledExp.amountConsumed);
+						if (!consumeItems) {
+							sender.sendMessage(ChatColor.RED
+									+ BottledExp.langItemConsumer);
 							return true;
 						}
 					}
@@ -100,22 +118,27 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 								+ refundAmount);
 						amount -= refundAmount;
 					}
-					
-					if (money)
+
+					if (money) // Remove money from player
 					{
-						BottledExp.withdrawMoney(player, BottledExp.moneyCost * amount);
-						player.sendMessage(BottledExp.langMoney + ": " + BottledExp.moneyCost * amount + " " + BottledExp.economy.currencyNamePlural());
+						BottledExp.withdrawMoney(player, BottledExp.moneyCost
+								* amount);
+						player.sendMessage(BottledExp.langMoney + ": "
+								+ BottledExp.moneyCost * amount + " "
+								+ BottledExp.economy.currencyNamePlural());
 					}
-					
-					if (BottledExp.settingUseItems) {
+
+					if (consumeItems) // Remove items from Player
+					{
 						if (!BottledExp.consumeItem(player,
-								BottledExp.settingConsumedItem, amount * BottledExp.amountConsumed)) {
+								BottledExp.settingConsumedItem, amount
+										* BottledExp.amountConsumed)) {
 							sender.sendMessage(ChatColor.RED
 									+ BottledExp.langItemConsumer);
 							return true;
 						}
 					}
-					
+
 					sender.sendMessage(BottledExp.langOrder1 + " " + amount
 							+ " " + BottledExp.langOrder2);
 				}
