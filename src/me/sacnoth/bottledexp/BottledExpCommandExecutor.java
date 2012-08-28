@@ -40,7 +40,7 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 												/ BottledExp.amountConsumed,
 										amount);
 							}
-							if (BottledExp.useVault) {
+							if (BottledExp.useVaultEcon) {
 								amount = Math.min((int) Math.floor(BottledExp
 										.getBalance(player)
 										/ BottledExp.moneyCost), amount);
@@ -77,7 +77,7 @@ public class BottledExpCommandExecutor implements CommandExecutor {
 					}
 
 					boolean money = false;
-					if (BottledExp.useVault) // Check if the player has enough
+					if (BottledExp.useVaultEcon) // Check if the player has enough
 												// money
 					{
 						if (BottledExp.getBalance(player) > BottledExp.moneyCost

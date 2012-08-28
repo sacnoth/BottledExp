@@ -3,6 +3,7 @@ package me.sacnoth.bottledexp;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,8 +22,10 @@ public class BottledExp extends JavaPlugin {
 	static int xpCost;
 	static int xpEarn;
 	static boolean usePermissions = false;
-	static boolean useVault = true;
-	static PermissionManager permissions;
+	static boolean useVaultEcon = true;
+	static boolean useVaultPermissions = false;
+	static PermissionManager pexPermissions;
+	static Permission vaultPermissions;
 	static String errAmount;
 	static String errXP;
 	static String errMoney;
@@ -53,33 +56,60 @@ public class BottledExp extends JavaPlugin {
 
 		if (!setupEconomy()) {
 			log.info("Vault not found - Disabeling economy capabilities.");
-			useVault = false;
+			useVaultEcon = false;
 		}
 
 		log.info("You are now able to fill XP into Bottles");
 
 		if (Bukkit.getServer().getPluginManager()
 				.isPluginEnabled("PermissionsEx")) {
+			pexPermissions = PermissionsEx.getPermissionManager();
 			usePermissions = true;
-			permissions = PermissionsEx.getPermissionManager();
-			log.info("Using Permissions!");
+			log.info("Using PermissionsEx!");
+		} else if (Bukkit.getServer().getPluginManager()
+				.isPluginEnabled("Vault")) {
+			setupPermissions();
+			useVaultPermissions = true;
+			log.info("Using " + vaultPermissions.getName() + " via Vault.");
+		} else {
+			log.warning("Neither PEX nor Vault found, BottledExp will not work properly!");
 		}
 	}
 
 	public void onDisable() {
 		log.info("You are no longer able to fill XP into Bottles");
 	}
+	
+	private boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> permissionProvider = getServer()
+				.getServicesManager().getRegistration(
+						net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider != null) {
+			vaultPermissions = permissionProvider.getProvider();
+		}
+		return (vaultPermissions != null);
+	}
 
 	public static boolean checkPermission(String node, Player player) {
 		if (usePermissions) {
-			if (permissions.has(player, node)) {
+			if (pexPermissions.has(player, node)) {
+				return true;
+			}
+			player.sendMessage(ChatColor.RED
+					+ "You don't have permission to do this!");
+			return false;
+		} else if (useVaultPermissions && vaultPermissions.isEnabled()) {
+			if (vaultPermissions.playerHas(player.getWorld(), player.getName(),
+					node)) {
 				return true;
 			}
 			player.sendMessage(ChatColor.RED
 					+ "You don't have permission to do this!");
 			return false;
 		}
-		return true;
+		player.sendMessage(ChatColor.RED
+				+ "Neither PEX nor Vault found, BottledExp will not work properly!");
+		return false;
 	}
 
 	public static int levelToExp(int level) {
@@ -106,8 +136,7 @@ public class BottledExp extends JavaPlugin {
 		{
 			return 3 * level - 31;
 		}
-		else
-		{
+ else {
 			return 7 * level - 155;
 		}
 	}

@@ -35,8 +35,8 @@ public class Config {
 		config.set("bottle.amountConsumed", BottledExp.amountConsumed);
 		
 		config.addDefault("bottle.useMoney", false);
-		BottledExp.useVault = config.getBoolean("bottle.useMoney");
-		config.set("bottle.useMoney", BottledExp.useVault);
+		BottledExp.useVaultEcon = config.getBoolean("bottle.useMoney");
+		config.set("bottle.useMoney", BottledExp.useVaultEcon);
 		
 		config.addDefault("bottle.moneyCost", 100);
 		BottledExp.moneyCost = config.getDouble("bottle.moneyCost");
@@ -97,7 +97,7 @@ public class Config {
 		BottledExp.settingUseItems = config.getBoolean("bottle.useItems");
 		BottledExp.settingConsumedItem = config.getInt("bottle.consumedItem");
 		BottledExp.amountConsumed = config.getInt("bottle.amountConsumed");
-		BottledExp.useVault = config.getBoolean("bottle.useMoney");
+		BottledExp.useVaultEcon = config.getBoolean("bottle.useMoney");
 		BottledExp.moneyCost = config.getDouble("bottle.moneyCost");
 		BottledExp.errAmount = config.getString("language.errAmount");
 		BottledExp.errXP = config.getString("language.errXP");
@@ -119,7 +119,7 @@ public class Config {
 		sender.sendMessage(ChatColor.YELLOW + "Use items: " + BottledExp.settingUseItems);
 		sender.sendMessage(ChatColor.YELLOW + "Item used: " + BottledExp.settingConsumedItem);
 		sender.sendMessage(ChatColor.YELLOW + "Amount used: " + BottledExp.amountConsumed);
-		sender.sendMessage(ChatColor.YELLOW + "Use money: " + BottledExp.useVault);
+		sender.sendMessage(ChatColor.YELLOW + "Use money: " + BottledExp.useVaultEcon);
 		sender.sendMessage(ChatColor.YELLOW + BottledExp.langMoney + ": " + BottledExp.moneyCost);
 	}
 }
