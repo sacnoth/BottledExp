@@ -83,26 +83,37 @@ public class BottledExp extends JavaPlugin {
 	}
 
 	public static int levelToExp(int level) {
-		return (int) Math.round(1.75 * Math.pow(level, 2) + 5 * level);
+		if (level <= 15)
+		{
+			return 17 * level;
+		}
+		else if (level <= 30)
+		{
+			return (3*level*level/2)-(59*level/2)+360;
+		}
+		else
+		{
+			return (7*level*level/2)-(303*level/2)+2220;
+		}
 	}
 
 	public static int deltaLevelToExp(int level) {
-		return (int) Math.round(3.5 * level + 3.25);
+		if (level <= 15)
+		{
+			return 17;
+		}
+		else if (level <= 30)
+		{
+			return 3 * level - 31;
+		}
+		else
+		{
+			return 7 * level - 155;
+		}
 	}
 
 	public static int getPlayerExperience(Player player) {
-		double userLevel = player.getLevel() + player.getExp();
-		int altExp = (int) Math.round(1.75D * Math.pow(userLevel, 2.0D) + 5.0D
-				* userLevel);
 		int bukkitExp = player.getTotalExperience();
-		if (bukkitExp > altExp + 3) {
-			BottledExp.log.info("Updating XP for player: " + player.getName());
-			player.setTotalExperience(0);
-			player.setLevel(0);
-			player.setExp(0);
-			player.giveExp(altExp);
-			return altExp;
-		}
 		return bukkitExp;
 	}
 
